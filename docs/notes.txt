@@ -1,0 +1,22 @@
+firstly we created a root project called coreRoot
+we create a general app to contain all apps called core * we deleted every file in it leaving only apps.py and __init__.py
+
+we cd into core app and create a app called user and did custom user model in it ; we registered the custom usermodel in  settings.py  
+
+
+//creating a user 
+from core.user.models import User
+
+data_user = {
+ "email": "testuser@yopmail.com",
+ "username": "john-doe",
+ "password": "12345",
+ "first_name": "John",
+ "last_name": "Doe"
+ }
+user =  User.objects.create_user(**data_user)
+
+//test
+user.username
+user.email
+user.password

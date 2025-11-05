@@ -1,0 +1,31 @@
+
+
+#-----------------------with httpie------------------------
+http POST :8000/login/ username=cheche password=12345 email=cheche@example.com
+
+http POST :8000/token/refresh/ refresh=<REFRESH_TOKEN_HERE>
+
+http GET :8000/user/ "Authorization: Bearer <ACCESS_TOKEN>"
+
+#-----------------------with python requests------------------------
+import requests
+import json
+
+# Login
+response = requests.post("http://localhost:8000/login/", json={
+    "username": "cheche",
+    "password": "12345"
+})
+print(response.json())
+
+# Token Refresh
+response = requests.post("http://localhost:8000/token/refresh/", json={
+    "refresh": "<REFRESH_TOKEN_HERE>"
+})
+print(response.json())
+
+# Get User
+response = requests.get("http://localhost:8000/user/", headers={
+    "Authorization": "Bearer <ACCESS_TOKEN>"
+})
+print(response.json())
