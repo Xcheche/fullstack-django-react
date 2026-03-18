@@ -2,7 +2,6 @@ import requests
 import json
 
 
-
 # Register
 # response = requests.post(
 #     "http://localhost:8000/register/", json={"username": "test", "email": "cheche@example.com", "password": "testpass123"}
@@ -10,9 +9,19 @@ import json
 
 # Login
 response = requests.post(
-    "http://localhost:8000/login/", json={"username": "cheche", "email": "checheomenife@gmail.com", "password": "cheche199200"}
+    "http://localhost:8000/login/",
+    json={
+        "username": "cheche",
+        "email": "checheomenife@gmail.com",
+        "password": "cheche199200",
+    },
 )
 print(response.json())
+
+# response = requests.post(
+#     "http://localhost:8000/login/", json={"username": "tester", "email": "johndoe@gmail.com", "password": "john199600"}
+# )
+# print(response.json())
 
 # # Token Refresh
 # response = requests.post(

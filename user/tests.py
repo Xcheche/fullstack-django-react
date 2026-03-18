@@ -10,6 +10,7 @@ from django.test import TestCase
 
 
 class PlaceholderTest(TestCase):
-	"""A placeholder test to remind contributors to add tests."""
-	def test_placeholder(self):
-		self.assertTrue(True)
+    """A placeholder test to remind contributors to add tests."""
+
+    def test_placeholder(self):
+        self.assertTrue(True)

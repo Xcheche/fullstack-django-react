@@ -12,7 +12,7 @@ from django.http import Http404
 from CoreRoot.abstract.models import AbstractManager
 
 
-class UserManager(BaseUserManager,AbstractManager):
+class UserManager(BaseUserManager, AbstractManager):
     """Manager with helpers for user creation and lookup.
 
     Methods:

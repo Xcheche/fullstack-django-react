@@ -1,4 +1,3 @@
-
 """Custom `User` model used by the project.
 
 This model uses email as the `USERNAME_FIELD` and exposes a
@@ -30,13 +29,11 @@ class User(AbstractBaseUser, PermissionsMixin, AbstractModel):
     `get_object_by_public_id` and `create_user`/`create_superuser`.
     """
 
-  
     username = models.CharField(db_index=True, max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(db_index=True, unique=True)
     is_superuser = models.BooleanField(default=False)
- 
 
     # Permissions
     is_staff = models.BooleanField(default=False)

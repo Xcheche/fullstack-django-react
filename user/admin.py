@@ -10,9 +10,10 @@ from user.models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-	"""Admin configuration for the `User` model.
+    """Admin configuration for the `User` model.
 
-	For now we register the model with default behaviour. Add search,
-	list_display etc. later as needed for admin convenience.
-	"""
-	pass
+    For now we register the model with default behaviour. Add search,
+    list_display etc. later as needed for admin convenience.
+    """
+
+    pass

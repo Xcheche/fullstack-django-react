@@ -24,11 +24,14 @@ from user.serializers import RegisterSerializer
 from user.serializers import LoginSerializer
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.views import TokenRefreshView
+from CoreRoot.abstract.viewsets import AbstractViewSet
 
 
 # ----------------Custom User viewset------------------
-class UserViewSet(viewsets.ModelViewSet):
-    """ViewSet for retrieving and updating users.
+class UserViewSet(AbstractViewSet):
+    """This view ONLY retrieves all users
+    Access is restricted to superusers
+    It does NOT handle updating or deleting users
 
     Only `GET` and `PATCH` HTTP methods are allowed. Lookup is performed
     by `public_id` (a UUID) instead of the numeric primary key so the API
@@ -36,8 +39,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     - `get_queryset`: limits visible users for non-superusers.
     - `get_object`: resolves `public_id` to the `User` instance using
-      the custom manager helper `get_object_by_public_id` which raises
-      `Http404` for invalid values.
+    the custom manager helper `get_object_by_public_id` which raises
+    `Http404` for invalid values.
     """
 
     http_method_names = ("patch", "get")
@@ -45,7 +48,9 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     lookup_field = "public_id"
     lookup_url_kwarg = "public_id"
-    lookup_value_regex = r"[0-9a-f-]{8}-[0-9a-f-]{4}-[0-9a-f-]{4}-[0-9a-f-]{4}-[0-9a-f-]{12}"
+    lookup_value_regex = (
+        r"[0-9a-f-]{8}-[0-9a-f-]{4}-[0-9a-f-]{4}-[0-9a-f-]{4}-[0-9a-f-]{12}"
+    )
 
     def get_queryset(self):
         """Return a QuerySet of users this requestor can see.
@@ -64,11 +69,12 @@ class UserViewSet(viewsets.ModelViewSet):
         centralizes the lookup behaviour and raises `Http404` on
         invalid input — useful for consistent error responses.
         """
-        #like details view, we need to override get_object to use the custom manager's lookup method
+        # like details view, we need to override get_object to use the custom manager's lookup method
         public_id = self.kwargs[self.lookup_url_kwarg]
         obj = User.objects.get_object_by_public_id(public_id)
         self.check_object_permissions(self.request, obj)
         return obj
+
 
 # ------------------------Register viewset-----------------------#
 
@@ -102,7 +108,7 @@ class RegisterViewSet(ViewSet):
         )
 
 
-#-------------------------------Login Viewset---------------
+# -------------------------------Login Viewset---------------
 class LoginViewSet(ViewSet):
     serializer_class = LoginSerializer
     permission_classes = (AllowAny,)
@@ -123,10 +129,10 @@ class LoginViewSet(ViewSet):
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
 
-#--------------------------------Refresh Token Viewset----------------#
+# --------------------------------Refresh Token Viewset----------------#
 class RefreshViewSet(ViewSet, TokenRefreshView):
     permission_classes = (AllowAny,)
-    http_method_names = ['post']
+    http_method_names = ["post"]
     """Refresh access tokens using a valid refresh token.
 
     This class mixes `ViewSet` with SimpleJWT's `TokenRefreshView` so
